@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void common(int a[], int b[])
+{
+	int i,j,k=0;
+	for(i=0; i<10; i++)
+	{
+		if(i==0 || a[i]!=a[i-1])
+		{
+			for(j=0;j<10;j++)
+				{
+					if(a[i] == b[j])
+					{
+						printf("common element found =%d\n", a[i]);
+						k++;
+						break;
+					}
+		}
+	}		}
+printf("number of commom elements =%d \n",k);
+} 
+
+int bs(int b[], int low, int high, int key)
+{
+	int mid = (low+high)/2;
+	//printf("mid=%d\n ", mid);
+	int k;
+	if(low<=high)
+	{
+		if(key==b[mid])
+			return key;  
+		if(key > b[mid])
+		{	
+			k = bs(b, mid+1, high, key);
+			return k;
+		}		
+		if(key < b[mid])
+		{	
+			k = bs(b,low, mid-1, key);
+			return k;
+		}
+	}
+	else
+		return 0;
+
+}
+
+void common1(int a[], int b[])    //after sorting both the arrays we can do this
+{
+	int i;
+	int count = 0;
+	for(i=0;i<10;i++)
+	{
+		if(i==0 || a[i]!=a[i-1])
+		{
+			//printf("i=%d\n ", i);
+			int k = bs(b, 0, 9, a[i]);
+			//printf("k=%d ", k);
+			if(k==a[i])
+			{
+				printf("common element found = %d\n", a[i]);
+				count++;
+			}
+		}	
+	}
+printf("number of common elements = %d\n", count);
+
+}		
+		
+int main()
+{
+
+	int a[10] = {1,1,6,6,6,6,6,6,66,66};
+	int b[10] = {1,4,5,6,7,33,37,66,76,77};
+
+	common(a,b);
+	common1(a,b);
+
+return 0;
+}

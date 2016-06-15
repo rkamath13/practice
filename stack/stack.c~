@@ -1,0 +1,76 @@
+/*array implementation of stack */
+
+#include<stdio.h>
+#define STACK_SIZE 10
+
+
+int A[STACK_SIZE];
+int top = -1;
+
+void push(int a)
+{
+	if (top == STACK_SIZE-1)
+	{
+		printf("Stack Overflow\n");
+		return;
+	}
+	
+		A[++top] = a;
+	
+}
+
+void pop()
+{
+	if(top == -1)
+	{
+		printf("Stack is empty\n");
+		return;
+	}
+	top--;
+}
+
+int Top()
+{
+	if(top == -1)
+	{
+		printf("Stack is empty\n");
+		return;
+	}
+	return A[top];
+}
+
+void print()
+{
+	int i;
+	if(top == -1)
+	{
+		printf("Stack is empty\n");
+		return;
+	}
+	for(i=top;i>=0;i--)
+		printf("%d ", A[i]);
+	printf("\n");
+}	
+
+int main()
+{
+
+	int i;
+	for(i=0;i<9;i++)
+	{
+		push(i);
+		print();
+	}
+	
+	for(i=0;i<9;i++)
+	{
+		pop();
+		print();
+	}
+
+
+
+return 0;
+}
+
+

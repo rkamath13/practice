@@ -1,0 +1,5 @@
+void list(int );
+void print(void );
+void delete(int n);
+void reverse(void );
+

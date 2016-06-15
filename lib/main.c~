@@ -1,0 +1,9 @@
+#include<stdio.h>
+#include "lib_mylib.h"
+#include "lib_mylib2.h"
+
+int main()
+{
+	fun();
+	add(3,5);
+}

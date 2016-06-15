@@ -1,0 +1,43 @@
+#include<stdio.h>
+
+int main()
+{
+	char a[] = "HghhsjKKjhIsaPosTYYjK";
+	int count,i,j,k;
+	char temp;
+	
+	count = 0;
+	while(a[count]!='\0')
+		count++;
+	
+	i = 0;
+	j = count;
+	printf("original array %s\n", a);
+	
+	while(i<j)
+	{
+		if((a[i]>='A' && a[i]<= 'Z') && (a[j]>='A' && a[j]<= 'Z'))
+		{
+			temp = a[i];
+			a[i] = a[j];
+			a[j] = temp;
+			i++;
+			j--;
+		}
+		else if((a[i]>='A' && a[i]<= 'Z') && !(a[j]>='A' && a[j]<= 'Z'))
+			j--;
+		
+		else if(!(a[i]>='A' && a[i]<= 'Z') && (a[j]>='A' && a[j]<= 'Z'))
+			i++;
+	
+		else
+		{
+			i++;
+			j--;
+		}
+	}
+	printf("new array %s\n", a);
+return 0;
+}
+	
+	

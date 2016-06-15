@@ -1,0 +1,11 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int i;
+int a ='A';
+
+for(i=0;i<10;++i)
+	printf("%d", i);
+char *str_buf;
+str_buf = (char)*malloc(i);

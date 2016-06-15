@@ -1,0 +1,34 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+// using typedef for defining structure
+typedef struct example
+{
+	int no;
+	char gender;
+	char name[100];
+}data;
+data *struct_pointer
+
+int main()
+{
+
+data ex;
+//data *struct_pointer;
+struct_pointer=&ex;
+
+ex.no = 100;
+ex.gender = 'M';
+strcpy(ex.name, "Ramesh");
+
+
+
+printf("%d\n", struct_pointer->no);
+printf("%c\n", struct_pointer->gender);
+printf("%s\n", struct_pointer->name);
+
+
+return 0;
+}
+

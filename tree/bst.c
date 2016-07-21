@@ -51,9 +51,9 @@ int findnode(struct bstnode* rootptr, int data)
 	else if(rootptr->data == data)
 		return 1;
 	else if(data > rootptr->data)
-		findnode(rootptr->right, data);
+		return findnode(rootptr->right, data);
 	else
-		findnode(rootptr->left, data);
+		return findnode(rootptr->left, data);
 
 }
 
@@ -154,5 +154,63 @@ void PostOrder(struct bstnode* rootptr)
 
 }
 
-		
+//--------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
 
+int Height(struct bstnode* rootptr)
+{
+	if(rootptr == NULL)
+		return 0;
+	else
+	{
+		int lheight = Height(rootptr->left);
+		int rheight = Height(rootptr->right);
+	
+		if(lheight > rheight)
+			return lheight+1;
+		else
+			return rheight+1;
+	}
+}
+
+//--------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//		
+
+void LevelOrder(struct bstnode* rootptr)
+{
+	int height = Height(rootptr);
+	int i;
+	for(i=0;i<=height;i++)
+		PrintLevel(rootptr, i);
+}
+
+//--------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+
+void PrintLevel(struct bstnode* rootptr, int level)
+{
+	if(rootptr == NULL)
+		return;
+	else if (level == 1)
+		printf("%d\t", rootptr->data);
+	else
+	{
+		PrintLevel(rootptr->left, level-1);
+		PrintLevel(rootptr->right, level-1);
+	}
+}
+
+//--------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+//-------------------------------------------------------------------------//
+
+int Size(struct bstnode* rootptr)
+{
+	if(rootptr == NULL)
+		return 0;
+	else
+		return (Size(rootptr->left) + Size(rootptr->right) + 1);
+}

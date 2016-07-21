@@ -1,0 +1,20 @@
+Approach:
+-------------------------------------------------------------------------------------------------------------------------------------------
+1) Initially solved the problem statement without using any threads, In one main function. (arteris.c)
+-Used a random memory address and dynamically allocated 64 bytes using that address in the heap.
+-Initialized all the address references (each byte value) to 0.
+-Generated random numbers for all byte address values using rand() function and stored them in an array
+-incremented each byte adrress value to its respective random number
+-Used 64 random numbers for 64 byte addresses, I could have also generated 4 random values for 4 threads (more efficient) and as per the threadid, the byte address value increments to that particular random number.
+-Error checking by comparing the byte address value to its respective random number.
+- Compiled and executed the code and checked for errors, code executed without any errors and error checking also passes.
+
+2)Solved using threads, functions provided by the problem statement. (arteris_thread.c)
+-ASSUMPTION: I hae assumed that this is a thread function and all 4 threads will execute this fuction in parallel when they are spawned from the main function, Hence I have written only one thread function as 4 threads will have 4 different stack memories to execute the same function.
+- could have used four different functions for 4 threads to elaborate the code better, but defeats the purpose of threads.
+- thread function takes the thread id and memory address offset as parameters.
+- did not compile and execute!
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Do read the comments in both the source codes for better understanding of my approach and thinking for this problem statement. 

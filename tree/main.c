@@ -24,6 +24,15 @@ InOrder(root);
 printf("\n");
 PostOrder(root);
 printf("\n");
+LevelOrder(root);
+printf("\n");
+int h = Height(root);
+printf("Height of tree is %d\n", h);
+printf("\n");
+int No_nodes = Size(root);
+printf("No of nodes in the tree are :%d\n", No_nodes);
+printf("\n");
+
 
 return 0;
 }

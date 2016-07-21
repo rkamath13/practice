@@ -1,0 +1,13 @@
+#include<stdio.h>
+#include "link_list.h"
+
+#ifndef QUEUE_H
+#define QUEUE_H
+
+struct node* EnQueue(struct node* front, struct node* rear, int x);
+struct node* DeQueue(struct node* front);
+int IsEmpty(struct node* front);
+int Top(struct node* front);
+void PrintQueue(struct node* front);
+
+#endif

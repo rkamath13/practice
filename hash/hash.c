@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#include<stdlib.h>
+
 #define TABLE_SIZE 10
 
 struct node{
-	char* name;
+	int value;
 	struct node* next;
 };
 
@@ -15,172 +15,159 @@ void initialize()
 	int i;
 	for(i=0;i<TABLE_SIZE;i++)
 	{
-		arr_hash[i] = (struct node *)malloc(sizeof(struct node)) ;
-		arr_hash[i]->name = "empty";
-		arr_hash[i]->next = NULL;
+		arr_hash[i] = NULL;
 	}
-		
 }
 
-
-struct node* MakeNode(char* value)
+int HashFunction(int data)
 {
-	struct node* temp = (struct node *)malloc(sizeof(struct node));
-	temp->name = value;
-	temp->next = NULL;
-	return temp;
+	int sum = 0, res;
+	while(data)
+	{
+		res = data%10;
+		sum = sum + res;
+		data = data/10;
+	}
+	return sum%TABLE_SIZE;
 }
 
-int HashFunction(char* value)
+void InsertTable(int data)
 {
-
-
-	int key = 0;
-	while(*value++ != '\0')
-		key = key + *value;
-	return key%TABLE_SIZE;
-
-}
-
-void Insert(char* value)
-{
-	/*
-	int key = HashFunction(value);
-	printf("the key is %d\n", key);
+	int key = HashFunction(data);
 	if(arr_hash[key] == NULL)
 	{
-		arr_hash[key] = MakeNode(value);
+		arr_hash[key] = (struct node *)malloc(sizeof(struct node));
+		arr_hash[key]->value = data;
+		arr_hash[key]->next = NULL;
 	}
 	else
 	{
 		struct node* head = arr_hash[key];
-		while(head)
+		while(head->next)
+		{
 			head = head->next;
-		head = MakeNode(value);
-	}
-	*/
-
-	int key = HashFunction(value);
-	char emp[] = "empty";
-	char* check = (char *)malloc(sizeof(strlen(emp)+1));
-        if(Compare(arr_hash[key]->name, check))
-        {
-                arr_hash[key]->name = value;
-        }
-	else
-        {
-                struct node* ptr = arr_hash[key];
-                struct node* n = MakeNode(value);
-                while(ptr->next)
-                        ptr = ptr->next;
-                ptr->next = n;
-        }
-
-}
-
-int Compare(char* A, char* B)
-{
-	while(*A != '\0' && *B != '\0')
-	{
-		if(*A != *B)
-			return 0;
-		else
-		{
-			printf("%c%c\t", *A, *B);
-			A++;
-			B++;
 		}
+		head->next = (struct node *)malloc(sizeof(struct node));
+		head->next->value = data;
+		head->next->next = NULL;
 	}
-	return 1;
 }
 
-void IsContains(char* value)
+void PrintTable()
 {
-	int key = HashFunction(value);
-	printf("the key is %d\n", key);
-	struct node* head = arr_hash[key];
-	printf("%s\n", arr_hash[key]->name);
-
-	while(head)
+	int index = 0;
+	while(index != TABLE_SIZE)
 	{
-		if(Compare(value, head->name))
+		if(arr_hash[index] != NULL)
 		{
-			printf("contains\n");
+			printf("for index %d\n",index);
+			struct node* head = arr_hash[index];
+			while(head)
+			{
+				printf("%d\t", head->value);
+				head = head->next;
+			}
+		index++;
+		printf("\n");
+		}
+		else
+			index++;
+	}
+}
+
+void Delete(int data)
+{
+	int key = HashFunction(data);
+	if(arr_hash[key] == NULL)
+	{
+		printf("there is no such value in the hash table\n");
+		return;
+	}
+
+	else if(arr_hash[key] != NULL && arr_hash[key]->next == NULL)
+	{
+		if(arr_hash[key]->value == data)
+		{
+			arr_hash[key] = NULL;
+			printf("deleted the element\n");
 			return;
 		}
-		head = head->next;
-	}
-		printf("not contains\n");
-		return;
-}
 
-void Delete(char* value)
-{
-	int key = HashFunction(value);
-	
-	
-	//if index is NULL
-	if(arr_hash[key] == NULL)
-		printf("Cannot delete....no value in the index\n");
-
-	//if only one element is present in the index
-	else if(Compare(arr_hash[key]->name, value) && (arr_hash[key]->next == NULL))
-	{
-		arr_hash[key] = NULL;
-		printf("removed the value from hash table\n");
+		else
+		{
+			printf("there is no such value in the hash table\n");
+			return;
+		}
 	}
 	
-	//if the element is found on index and it has a chain
-	else if(Compare(arr_hash[key]->name, value) && (arr_hash[key]->next != NULL))
-	{
-		struct node* temp = arr_hash[key];
-		arr_hash[key] = arr_hash[key]->next;
-		free(temp);
-		printf("removed the value from hash table\n");
-	}
-	
-	//if element is not found on the first index...search in the chain
-	else 
+	else if(arr_hash[key]->value == data && arr_hash[key]->next != NULL)
 	{
 		struct node* head = arr_hash[key];
-		while(head)
+		arr_hash[key] = arr_hash[key]->next;
+		free(head);
+		printf("deleted the element\n");
+		return;
+	}
+	
+	else
+	{
+		struct node* p1 = arr_hash[key]->next;
+		struct node* p2 = arr_hash[key];
+		
+		while(p1 != NULL && p1->value != data)
 		{
-			if(Compare(head->name, value))
-			{
-				head = head->next;
-				free(head);
-				return;
-			}
-			else
-				head = head->next;
+			p2 = p1;
+			p1 = p1->next;
 		}
-		printf("Cannot delete....no such value found\n");
+		if(p1 == NULL)
+			printf("no such element\n");
+			
+		else
+		{
+			struct node* temp = p1;
+			p1 = p1->next;
+			p2->next = p1;
+			free(temp);
+			printf("deleted the element\n");
+		}
 	}
 }
 
 int main()
 {
-	int i;
-	initialize();
-	char fname[20];
-	
-	for(i=0;i<5;i++)
+	int i, result, select;
+	printf("press 1 to insert, 2 to print, 3 to delete and ctrl+c to exit\n");
+	while(1)
 	{
-		printf("Enter the string %d\n", i);
-		scanf("%s", fname);
-		char* value = (char *)malloc(sizeof(strlen(fname)+1));
-		value = fname;
-		Insert(value);
+		scanf("%d", &select);
+		switch(select)
+		{
+			case 1 :
+			{
+			printf("Enter the value to be inserted\n");
+			scanf("%d",&result); 
+			InsertTable(result);
+			break;
+			}
+		
+			case 2:
+			{
+				PrintTable();
+				break;
+			}
+			
+			case 3:
+			{
+			printf("enter the value to be deleted\n");
+			scanf("%d", &result);
+			Delete(result);
+			break;
+			}
+		
+			default :
+				break;
+		}
 	}
 
-
-	for(i=0;i<5;i++)
-	{
-		printf("Enter the string you want to search\n");
-		scanf("%s", fname);
-		char* value = (char *)malloc(sizeof(strlen(fname)+1));
-                value = fname;
-		IsContains(value);
-	}
 return 0;
 }
